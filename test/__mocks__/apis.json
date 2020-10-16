@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Users",
+    "url": "album/api/users",
+    "description": "ユーザーを管理するAPIです"
+  },
+  {
+    "id": "2",
+    "name": "Posts",
+    "url": "album/api/posts",
+    "description": "投稿を管理するAPIです"
+  },
+  {
+    "id": "3",
+    "name": "Albums",
+    "url": "album/api/albums",
+    "description": "アルバムを管理するAPIです"
+  },
+  {
+    "id": "4",
+    "name": "Photos",
+    "url": "album/api/photos",
+    "description": "写真を管理するAPIです"
+  }
+]
