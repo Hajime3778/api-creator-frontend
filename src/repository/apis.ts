@@ -1,6 +1,6 @@
-import { Api } from "src/types/api";
+import { Api } from 'src/types/api';
 
-import * as apisMock from "../../test/__mocks__/apis.json";
+import * as apisMock from '../../test/__mocks__/apis.json';
 
 export function getAllApis(): Api[] {
   const apis: any = apisMock;

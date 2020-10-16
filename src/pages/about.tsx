@@ -1,5 +1,5 @@
-import Head from "next/head";
-import { Layout } from "src/components/layout";
+import Head from 'next/head';
+import { Layout } from 'src/components/layout';
 
 const About: React.FC = () => (
   <Layout>
