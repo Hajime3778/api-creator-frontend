@@ -8,7 +8,7 @@ export class ApiRepository {
    * APIをすべて取得します。
    */
   async getAll(): Promise<Api[]> {
-    const response = await Axios.get<Api[]>('http://localhost:4000/api/v1/apis');
+    const response = await Axios.get<Api[]>('api/v1/apis');
     return response.data;
   }
   /**
@@ -16,7 +16,7 @@ export class ApiRepository {
    * @param  {string} id
    */
   async getById(id: string): Promise<Api> {
-    const response = await Axios.get<Api>(`http://localhost:4000/api/v1/apis/${id}`);
+    const response = await Axios.get<Api>(`api/v1/apis/${id}`);
     return response.data;
   }
 }
