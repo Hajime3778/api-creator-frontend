@@ -3,10 +3,34 @@ import 'antd/dist/antd.css';
 import 'src/styles/global.scss';
 
 import Axios from 'axios';
-import type { AppProps } from 'next/app';
-
+import NextApp, { AppContext } from 'next/app';
+import { Layout } from 'src/components/layout';
+import { apiRepository } from 'src/repository/apis';
+import { Api } from 'src/types/api';
 Axios.defaults.baseURL = 'http://localhost:4000/';
 
-const App: React.FC<AppProps> = ({ Component, pageProps }) => <Component {...pageProps} />;
+interface Props {
+  apis: Api[];
+}
+
+class App extends NextApp<Props> {
+  render(): JSX.Element {
+    const { Component, pageProps, apis } = this.props;
+    return (
+      <Layout apis={apis}>
+        <Component {...pageProps} />
+      </Layout>
+    );
+  }
+
+  static async getInitialProps({ Component, ctx }: AppContext): Promise<any> {
+    const componentGetInitialProps = Component.getInitialProps || (() => Promise.resolve());
+    const [apis, pageProps] = await Promise.all([apiRepository.getAll(), componentGetInitialProps(ctx)]);
+    return {
+      apis,
+      pageProps,
+    };
+  }
+}
 
 export default App;
