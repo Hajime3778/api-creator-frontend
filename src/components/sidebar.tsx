@@ -1,4 +1,4 @@
-import { HomeOutlined, UserOutlined } from '@ant-design/icons';
+import { ApiOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { useRouter } from 'next/router';
 // import Router from "next/Router";
@@ -37,7 +37,7 @@ export const Sidebar: React.FC<Props> = ({ apis }) => {
       <Menu theme="light" mode="inline" style={{ color: '#2F2F2F' }} defaultSelectedKeys={[pathName]}>
         {apis?.map((api) => {
           return (
-            <Menu.Item key={api.id} icon={<HomeOutlined />} onClick={() => router.push('/')}>
+            <Menu.Item key={api.id} icon={<ApiOutlined />} onClick={() => router.push(`/apis/${api.id}`)}>
               {`${api.url}`}
             </Menu.Item>
           );

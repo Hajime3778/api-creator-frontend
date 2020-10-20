@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { Layout } from 'src/components/layout';
 import { Api } from 'src/types/api';
 
-import { getAllApis } from '../repository/apis';
+import { ApiRepository } from '../repository/apis';
 
 interface Props {
   apis?: Api[];
@@ -29,7 +29,8 @@ const Home: NextPage<Props> = ({ apis }) => {
 };
 
 Home.getInitialProps = async () => {
-  const apis = await getAllApis();
+  const repository = new ApiRepository();
+  const apis = await repository.getAll();
   return { apis };
 };
 
