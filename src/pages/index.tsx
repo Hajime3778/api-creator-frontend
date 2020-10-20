@@ -12,7 +12,7 @@ interface Props {
 
 const Home: NextPage<Props> = ({ apis }) => {
   return (
-    <Layout>
+    <Layout apis={apis}>
       <Head>
         <title>Home</title>
         <link rel="icon" href="/favicon.ico" />
@@ -29,7 +29,7 @@ const Home: NextPage<Props> = ({ apis }) => {
 };
 
 Home.getInitialProps = async () => {
-  const apis = getAllApis();
+  const apis = await getAllApis();
   return { apis };
 };
 

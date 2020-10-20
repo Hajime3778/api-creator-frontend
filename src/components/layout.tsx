@@ -4,17 +4,23 @@ import React from 'react';
 import { Footer } from 'src/components/footer';
 import { Header } from 'src/components/header';
 import { Sidebar } from 'src/components/sidebar';
+import { Api } from 'src/types/api';
 
 const { Content } = AntLayout;
 
-export const Layout: React.FC = ({ children }) => (
+interface Props {
+  apis?: Api[];
+}
+
+export const Layout: React.FC<Props> = ({ children, apis }) => (
   <>
     <AntLayout>
-      <Sidebar />
+      <Sidebar apis={apis} />
       <AntLayout>
-        <Header />
+        {/* <Header /> */}
+
         <Content style={{ margin: '24px 16px 0' }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          <div className="site-layout-background" style={{ padding: 24, minHeight: 300 }}>
             {children}
           </div>
         </Content>
