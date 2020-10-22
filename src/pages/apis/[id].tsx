@@ -1,3 +1,4 @@
+import { Input } from 'antd';
 import { NextPage } from 'next';
 import { Api } from 'src/types/api';
 
@@ -8,7 +9,15 @@ interface Props {
 }
 
 const ApiPage: NextPage<Props> = ({ api }) => {
-  return <div>{`${api?.id} ${api?.name} ${api?.url} ${api?.description}`}</div>;
+  return (
+    <div>
+      <h1>{api?.name}</h1>
+      <h2>{api?.url}</h2>
+      <Input placeholder="url" value={api?.url} />
+      <h2>Description</h2>
+      <Input placeholder="description" value={api?.description} />
+    </div>
+  );
 };
 
 ApiPage.getInitialProps = async ({ query }) => {

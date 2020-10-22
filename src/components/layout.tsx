@@ -17,9 +17,7 @@ export const Layout: React.FC<Props> = ({ children, apis }) => (
       <Sidebar apis={apis} />
       <AntLayout>
         <Content style={{ margin: '24px 16px 0' }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 300 }}>
-            {children}
-          </div>
+          <div style={{ padding: 10 }}>{children}</div>
         </Content>
         <Footer />
       </AntLayout>
