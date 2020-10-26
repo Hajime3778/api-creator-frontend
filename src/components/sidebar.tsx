@@ -17,19 +17,7 @@ export const Sidebar: React.FC<Props> = ({ apis }) => {
   const apiId = pathName === '/apis/[id]' ? (router?.query.id as string) : '';
 
   return (
-    <Sider
-      theme="light"
-      width={width}
-      style={{ color: '#2F2F2F' }}
-      breakpoint="md"
-      collapsedWidth="0"
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
-    >
+    <Sider theme="light" width={width} style={{ color: '#2F2F2F' }} breakpoint="md" collapsedWidth="0">
       <div className="logo-area">
         <img src="/images/apig.png" className="logo" alt={'apig'} />
         <span className="logo-title">API CREATOR</span>

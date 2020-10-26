@@ -20,11 +20,11 @@ interface Props {
 const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
   return (
     <div>
-      <h1>{api?.name}</h1>
+      <h1>{api.name}</h1>
       <h2>URL</h2>
-      <Input placeholder="url" value={api?.url} style={{ marginBottom: 20 }} />
+      <Input placeholder="url" value={api.url} style={{ marginBottom: 20 }} />
       <h2>Description</h2>
-      <TextArea placeholder="description" rows={4} value={api?.description} style={{ marginBottom: 20 }} />
+      <TextArea placeholder="description" rows={4} value={api.description} style={{ marginBottom: 20 }} />
       <h2>Model</h2>
       {/* コンポーネント化する */}
       <span style={{ fontSize: 16 }}>{model.name}</span>
@@ -39,7 +39,7 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
       </h2>
       <div>
         {methods.map((method) => {
-          return <p key={method.id}>{`${method.type},${method.description},${method.url}`}</p>;
+          return <p key={method.id}>{`${method.type},${api.url}${method.url},${method.description}`}</p>;
         })}
       </div>
     </div>
@@ -53,7 +53,6 @@ ApiPage.getInitialProps = async ({ query }) => {
     modelsRepository.getById(api.model_id),
     methodsRepository.getByApiId(api.id),
   ]);
-  console.log(methods);
   return { api, model, methods };
 };
 
