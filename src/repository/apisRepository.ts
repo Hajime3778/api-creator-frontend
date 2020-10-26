@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import { Api } from 'src/types/api';
 
-class ApiRepository {
+class ApisRepository {
   /**
    * APIをすべて取得します。
    */
@@ -19,4 +19,4 @@ class ApiRepository {
   }
 }
 
-export const apiRepository = new ApiRepository();
+export const apisRepository = new ApisRepository();

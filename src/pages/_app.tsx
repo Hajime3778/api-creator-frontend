@@ -5,7 +5,7 @@ import 'src/styles/global.scss';
 import Axios from 'axios';
 import NextApp, { AppContext } from 'next/app';
 import { Layout } from 'src/components/layout';
-import { apiRepository } from 'src/repository/apis';
+import { apisRepository } from 'src/repository/apisRepository';
 import { Api } from 'src/types/api';
 Axios.defaults.baseURL = 'http://localhost:4000/';
 
@@ -25,7 +25,7 @@ class App extends NextApp<Props> {
 
   static async getInitialProps({ Component, ctx }: AppContext): Promise<any> {
     const componentGetInitialProps = Component.getInitialProps || (() => Promise.resolve());
-    const [apis, pageProps] = await Promise.all([apiRepository.getAll(), componentGetInitialProps(ctx)]);
+    const [apis, pageProps] = await Promise.all([apisRepository.getAll(), componentGetInitialProps(ctx)]);
     return {
       apis,
       pageProps,

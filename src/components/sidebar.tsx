@@ -35,7 +35,7 @@ export const Sidebar: React.FC<Props> = ({ apis }) => {
         <span className="logo-title">API CREATOR</span>
       </div>
       <Menu theme="light" mode="inline" style={{ color: '#2F2F2F' }} defaultSelectedKeys={[apiId]}>
-        {apis?.map((api) => {
+        {apis.map((api) => {
           return (
             <Menu.Item key={api.id} icon={<ApiOutlined />} onClick={() => router.push('/apis/[id]', `/apis/${api.id}`)}>
               {`${api.url}`}
