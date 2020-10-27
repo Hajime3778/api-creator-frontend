@@ -3,18 +3,13 @@ import { Layout as AntLayout } from 'antd';
 import React from 'react';
 import { Footer } from 'src/components/footer';
 import { Sidebar } from 'src/components/sidebar';
-import { Api } from 'src/types/api';
 
 const { Content } = AntLayout;
 
-interface Props {
-  apis: Api[];
-}
-
-export const Layout: React.FC<Props> = ({ children, apis }) => (
+export const Layout: React.FC = ({ children }) => (
   <>
     <AntLayout>
-      <Sidebar apis={apis} />
+      <Sidebar />
       <AntLayout>
         <Content style={{ margin: '24px 16px 0' }}>
           <div style={{ padding: 10 }}>{children}</div>

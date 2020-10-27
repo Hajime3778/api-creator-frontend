@@ -33,9 +33,11 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
       </Tooltip>
       <h2>
         Methods
-        <Button style={{ marginLeft: 10 }} type="primary">
-          + New
-        </Button>
+        <Tooltip title="Create new method">
+          <Button style={{ marginLeft: 10 }} type="primary">
+            +New
+          </Button>
+        </Tooltip>
       </h2>
       <div>
         {methods.map((method) => {
