@@ -53,7 +53,9 @@ export const Sidebar: React.FC = () => {
       <div className={styles.searchArea}>
         <Input value={searchText} onChange={textChanged} className={styles.searchText} placeholder="search API" />
         <Tooltip title="Create new API">
-          <Button type="primary">+New</Button>
+          <Button className="ml-10" type="primary">
+            +New
+          </Button>
         </Tooltip>
       </div>
       <Menu theme="light" mode="inline" defaultSelectedKeys={[apiId]}>

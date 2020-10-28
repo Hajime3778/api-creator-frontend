@@ -56,3 +56,34 @@ h2 {
 .ant-layout-sider-zero-width-trigger {
   top: 0px;
 }
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+// api-page
+.model-edit{
+  width: 270px;
+  margin-bottom: 20px;
+}
+
+.model-name {
+  font-size: $font-base-size;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-block;
+  width: 220px;
+  background-color: #8D8D8D;
+  padding: 4px 11px;
+}
+
+.method-tag{
+  border-radius: 8px;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+}
