@@ -3,9 +3,7 @@ import { Button, Modal, Table, Tag, Tooltip } from 'antd';
 import React from 'react';
 import { Method } from 'src/types/method';
 
-import { methodsRepository } from '../../repository/methodsRepository';
-
-const style = {};
+//import { methodsRepository } from '../../repository/methodsRepository';
 
 function methodColor(methodType: string): string {
   switch (methodType) {
