@@ -1,6 +1,7 @@
 import { EditFilled } from '@ant-design/icons';
-import { Button, Input, Table, Tag, Tooltip } from 'antd';
+import { Button, Input, Tooltip } from 'antd';
 import { NextPage } from 'next';
+import React from 'react';
 import { Api } from 'src/types/api';
 import { Method } from 'src/types/method';
 import { Model } from 'src/types/model';
@@ -8,6 +9,7 @@ import { Model } from 'src/types/model';
 import { apisRepository } from '../../repository/apisRepository';
 import { methodsRepository } from '../../repository/methodsRepository';
 import { modelsRepository } from '../../repository/modelsRepository';
+import MethodsTable from './methodsTable';
 
 const { TextArea } = Input;
 
@@ -17,46 +19,8 @@ interface Props {
   methods: Method[];
 }
 
-function methodColor(methodType: string): string {
-  switch (methodType) {
-    case 'GET':
-      return '#87d068';
-    case 'POST':
-      return '#ffa500';
-    case 'PUT':
-      return '#1e90ff';
-    case 'DELETE':
-      return '#ff6347';
-    default:
-      return '#5d5d5d';
-  }
-}
-
 const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
-  const columns = [
-    {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type',
-      width: '10%',
-      render: (type: string) => (
-        <Tag style={{ width: 50, textAlign: 'center' }} color={methodColor(type)}>
-          {type === 'DELETE' ? 'DEL' : type}
-        </Tag>
-      ),
-    },
-    {
-      title: 'URL',
-      dataIndex: 'url',
-      key: 'url',
-      render: (text: string) => <a>{api.url + text}</a>,
-    },
-    {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-    },
-  ];
+  const isCreate = false;
 
   return (
     <div>
@@ -82,10 +46,29 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
         </Tooltip>
       </h2>
       <div className="methods-table-area">
-        {/* {methods.map((method) => {
-          return <p key={method.id}>{`${method.type},${api.url}${method.url},${method.description}`}</p>;
-        })} */}
-        <Table<Method> columns={columns} dataSource={methods} />
+        <MethodsTable apiUrl={api.url} methods={methods} />
+      </div>
+      <div className="button-area">
+        {(() => {
+          if (isCreate) {
+            return (
+              <Button className="action-button ml-20" size="large" type="primary">
+                Create API
+              </Button>
+            );
+          } else {
+            return (
+              <React.Fragment>
+                <Button className="action-button" size="large" type="primary">
+                  Save API
+                </Button>
+                <Button className="action-button ml-20" size="large" danger>
+                  Delete API
+                </Button>
+              </React.Fragment>
+            );
+          }
+        })()}
       </div>
     </div>
   );
