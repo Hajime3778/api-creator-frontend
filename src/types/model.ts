@@ -1,7 +1,5 @@
-export type Api = {
+export type Model = {
   id: string;
   name: string;
-  url: string;
   description: string;
-  model_id: string;
 };

@@ -1,0 +1,31 @@
+.logo {
+  height: 40px;
+  height: 40px;
+  border-radius: 80px;
+  border: solid 3px #646464;
+  margin-right: 10px;
+}
+
+.logoArea {
+  width: 260px;
+  height: 43px;
+  margin: 16px 5px 5px 16px;
+  cursor: pointer;
+}
+
+.logoTitle {
+  color: #646464;
+  font-weight: bold;
+  font-size: 26px;
+  vertical-align: middle;
+}
+
+.searchArea {
+  display: inline-block;
+  min-width: 300px;
+  margin: 20px 10px;
+}
+
+.searchText {
+  width: 200px;
+}

@@ -46,7 +46,7 @@ module.exports = {
     // "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     // "@typescript-eslint/explicit-module-boundary-types": 0,
     // "no-console": ["error", { allow: ["warn", "error"] }],
-    'prettier/prettier': ['error', { singleQuote: true, parser: 'flow' }, { usePrettierrc: true }],
+    'prettier/prettier': ['error', { singleQuote: true }, { usePrettierrc: true }],
     'simple-import-sort/sort': 'error',
     quotes: [2, 'single', { avoidEscape: true }],
     'jsx-a11y/anchor-is-valid': [

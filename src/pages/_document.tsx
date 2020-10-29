@@ -9,7 +9,11 @@ export default class MyDocument extends Document {
   render(): JSX.Element {
     return (
       <Html lang="ja">
-        <Head />
+        <Head>
+          <title>API CREATOR</title>
+          <link rel="icon" href="/favicon.ico" />
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        </Head>
         <body>
           <Main />
           <NextScript />
