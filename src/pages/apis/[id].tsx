@@ -1,7 +1,7 @@
-import { EditFilled } from '@ant-design/icons';
 import { Button, Input, Tooltip } from 'antd';
 import { NextPage } from 'next';
 import React from 'react';
+import { ModelEditButton } from 'src/components/common/modelEditButton';
 import { Api } from 'src/types/api';
 import { Method } from 'src/types/method';
 import { Model } from 'src/types/model';
@@ -9,7 +9,7 @@ import { Model } from 'src/types/model';
 import { apisRepository } from '../../repository/apisRepository';
 import { methodsRepository } from '../../repository/methodsRepository';
 import { modelsRepository } from '../../repository/modelsRepository';
-import MethodsTable from './methodsTable';
+import { MethodsTable } from './methodsTable';
 
 const { TextArea } = Input;
 
@@ -30,13 +30,7 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
       <h2>Description</h2>
       <TextArea placeholder="description" rows={4} value={api.description} className="mb-20" />
       <h2>Model</h2>
-      {/* コンポーネント化する */}
-      <div className="model-edit">
-        <div className="model-name">{model.name}</div>
-        <Tooltip title="Edit model">
-          <Button className="ml-10" type="primary" shape="circle" icon={<EditFilled />} />
-        </Tooltip>
-      </div>
+      <ModelEditButton apiId={api.id} model={model} />
       <h2>
         Methods
         <Tooltip title="Create new method">

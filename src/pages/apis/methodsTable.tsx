@@ -5,6 +5,8 @@ import { Method } from 'src/types/method';
 
 import { methodsRepository } from '../../repository/methodsRepository';
 
+const style = {};
+
 function methodColor(methodType: string): string {
   switch (methodType) {
     case 'GET':
@@ -44,7 +46,7 @@ interface Props {
   methods: Method[];
 }
 
-const MethodsTable: React.FC<Props> = ({ apiUrl, methods }) => {
+export const MethodsTable: React.FC<Props> = ({ apiUrl, methods }) => {
   // 行の定義
   const columns = [
     {
@@ -85,5 +87,3 @@ const MethodsTable: React.FC<Props> = ({ apiUrl, methods }) => {
 
   return <Table<Method> rowKey={(method) => method.id} columns={columns} dataSource={methods} />;
 };
-
-export default MethodsTable;
