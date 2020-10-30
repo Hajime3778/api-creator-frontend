@@ -1,14 +1,15 @@
 import { Button, Input, Tooltip } from 'antd';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { ModelEditButton } from 'src/components/common/modelEditButton';
 import { Api } from 'src/types/api';
 import { Method } from 'src/types/method';
 import { Model } from 'src/types/model';
 
-import { apisRepository } from '../../repository/apisRepository';
-import { methodsRepository } from '../../repository/methodsRepository';
-import { modelsRepository } from '../../repository/modelsRepository';
+import { apisRepository } from '../../../repository/apisRepository';
+import { methodsRepository } from '../../../repository/methodsRepository';
+import { modelsRepository } from '../../../repository/modelsRepository';
 import { MethodsTable } from './methodsTable';
 
 const { TextArea } = Input;
@@ -21,6 +22,7 @@ interface Props {
 
 const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
   const isCreate = false;
+  const router = useRouter();
 
   return (
     <div>
@@ -36,13 +38,17 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
       <h2>
         Methods
         <Tooltip title="Create new method">
-          <Button className="ml-10" type="primary">
+          <Button
+            className="ml-10"
+            type="primary"
+            onClick={() => router.push('/apis/[id]/[method]', `/apis/${api.id}/create-method`)}
+          >
             +New
           </Button>
         </Tooltip>
       </h2>
       <div className="methods-table-area">
-        <MethodsTable apiUrl={api.url} methods={methods} />
+        <MethodsTable api={api} methods={methods} />
       </div>
       <div className="button-area">
         {(() => {

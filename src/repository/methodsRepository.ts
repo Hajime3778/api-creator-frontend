@@ -14,7 +14,7 @@ class MethodsRepository {
    * @param  {string} id
    */
   async getById(id: string): Promise<Method> {
-    const response = await Axios.get<Method>(`api/v1/apis/${id}`);
+    const response = await Axios.get<Method>(`api/v1/methods/${id}`);
     return response.data;
   }
 }

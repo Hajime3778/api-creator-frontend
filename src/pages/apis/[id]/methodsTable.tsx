@@ -1,8 +1,9 @@
 import { DeleteFilled, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Button, Modal, Table, Tag, Tooltip } from 'antd';
+import Link from 'next/link';
 import React from 'react';
+import { Api } from 'src/types/api';
 import { Method } from 'src/types/method';
-
 //import { methodsRepository } from '../../repository/methodsRepository';
 
 function methodColor(methodType: string): string {
@@ -40,11 +41,11 @@ function showConfirm(methodId: string) {
 }
 
 interface Props {
-  apiUrl: string;
+  api: Api;
   methods: Method[];
 }
 
-export const MethodsTable: React.FC<Props> = ({ apiUrl, methods }) => {
+export const MethodsTable: React.FC<Props> = ({ api, methods }) => {
   // 行の定義
   const columns = [
     {
@@ -63,7 +64,11 @@ export const MethodsTable: React.FC<Props> = ({ apiUrl, methods }) => {
       dataIndex: 'url',
       key: 'url',
       width: '40%',
-      render: (url: string) => <a>{apiUrl + url}</a>,
+      render: (url: string, method: Method) => (
+        <Link href="/apis/[id]/[method]" as={`/apis/${api.id}/${method.id}`}>
+          <a>{api.url + url}</a>
+        </Link>
+      ),
     },
     {
       title: 'Description',
