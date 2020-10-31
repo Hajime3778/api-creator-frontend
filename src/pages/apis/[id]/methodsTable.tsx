@@ -1,10 +1,12 @@
 import { DeleteFilled, ExclamationCircleOutlined } from '@ant-design/icons';
-import { Button, Modal, Table, Tag, Tooltip } from 'antd';
+import { Button, message, Modal, Table, Tag, Tooltip } from 'antd';
+import { AxiosResponse } from 'axios';
 import Link from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/router';
 import { Api } from 'src/types/api';
 import { Method } from 'src/types/method';
-//import { methodsRepository } from '../../repository/methodsRepository';
+
+import { methodsRepository } from '../../../repository/methodsRepository';
 
 function methodColor(methodType: string): string {
   switch (methodType) {
@@ -20,25 +22,7 @@ function methodColor(methodType: string): string {
       return '#5d5d5d';
   }
 }
-
 const { confirm } = Modal;
-
-function showConfirm(methodId: string) {
-  confirm({
-    title: 'Do you want to delete method?',
-    icon: <ExclamationCircleOutlined />,
-    content: methodId,
-    okType: 'danger',
-    onOk() {
-      // TODO: ここでDelete処理をする
-      return new Promise((resolve, reject) => {
-        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-      }).catch(() => console.log('Oops errors!'));
-    },
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onCancel() {},
-  });
-}
 
 interface Props {
   api: Api;
@@ -46,7 +30,31 @@ interface Props {
 }
 
 export const MethodsTable: React.FC<Props> = ({ api, methods }) => {
-  // 行の定義
+  const router = useRouter();
+
+  const showConfirm = (methodId: string) => {
+    confirm({
+      title: 'Do you want to delete method?',
+      icon: <ExclamationCircleOutlined />,
+      okType: 'danger',
+      onOk() {
+        return methodsRepository
+          .delete(methodId)
+          .then((response: AxiosResponse<any>) => {
+            if (response.status !== 204) {
+              message.error('Failed to delete');
+            }
+            message.success('Successful delete');
+            router.push('/apis/[id]', `/apis/${api.id}`);
+          })
+          .catch(() => message.error('Failed to delete'));
+      },
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      onCancel() {},
+    });
+  };
+
+  // #region 行の定義
   const columns = [
     {
       title: 'Type',
@@ -87,6 +95,7 @@ export const MethodsTable: React.FC<Props> = ({ api, methods }) => {
       ),
     },
   ];
+  // #endregion
 
   return <Table<Method> rowKey={(method) => method.id} columns={columns} dataSource={methods} />;
 };

@@ -23,9 +23,9 @@ class MethodsRepository {
    * Methodを作成します。
    * @param  {Method} method
    */
-  async create(method: Method): Promise<string> {
+  async create(method: Method): Promise<AxiosResponse<{ id: string }>> {
     const response = await Axios.post<{ id: string }>('methods', method);
-    return response.data.id;
+    return response;
   }
 
   /**

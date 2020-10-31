@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input } from 'antd';
+import { Button, Checkbox, Input, message } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -52,18 +52,41 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
 
   // #region Actions
   const createMethod = async () => {
-    const createdId = await methodsRepository.create(methodState);
-    router.push('/apis/[id]/[method]', `/apis/${api.id}/${createdId}`);
+    const response = await methodsRepository.create(methodState);
+
+    if (response.status !== 201) {
+      message.error('Failed to create');
+      return;
+    }
+
+    const method = Object.assign({}, methodState);
+    method.id = response.data.id;
+    setMethodState(method);
+    message.success('Successful create');
+    router.push('/apis/[id]/[method]', `/apis/${api.id}/${response.data.id}`);
   };
 
   const updateMethod = async () => {
     const response = await methodsRepository.update(methodState);
-    if (response.status === 200) router.push('/apis/[id]/[method]', `/apis/${api.id}/${methodState.id}`);
+
+    if (response.status !== 200) {
+      message.error('Failed to update');
+      return;
+    }
+
+    message.success('Successful update');
+    router.push('/apis/[id]/[method]', `/apis/${api.id}/${methodState.id}`);
   };
 
   const deleteMethod = async () => {
     const response = await methodsRepository.delete(methodState.id);
-    if (response.status === 204) router.push('/apis/[id]', `/apis/${api.id}`);
+
+    if (response.status !== 204) {
+      message.error('Failed to delete');
+      return;
+    }
+    message.success('Successful delete');
+    router.push('/apis/[id]', `/apis/${api.id}`);
   };
   // #endregion
 
