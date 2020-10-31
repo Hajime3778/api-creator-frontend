@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Api } from 'src/types/api';
 import { Method } from 'src/types/method';
+import { ActionMessage } from 'src/utils/messages';
 
 import { methodsRepository } from '../../../repository/methodsRepository';
 
@@ -42,12 +43,12 @@ export const MethodsTable: React.FC<Props> = ({ api, methods }) => {
           .delete(methodId)
           .then((response: AxiosResponse<any>) => {
             if (response.status !== 204) {
-              message.error('Failed to delete');
+              message.error(ActionMessage.FailedDelete);
             }
-            message.success('Successful delete');
+            message.success(ActionMessage.SuccessDelete);
             router.push('/apis/[id]', `/apis/${api.id}`);
           })
-          .catch(() => message.error('Failed to delete'));
+          .catch(() => message.error(ActionMessage.FailedDelete));
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       onCancel() {},

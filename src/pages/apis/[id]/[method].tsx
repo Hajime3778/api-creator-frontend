@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { Api } from 'src/types/api';
 import { Method } from 'src/types/method';
+import { ActionMessage } from 'src/utils/messages';
 
 import { apisRepository } from '../../../repository/apisRepository';
 import { methodsRepository } from '../../../repository/methodsRepository';
@@ -55,14 +56,14 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
     const response = await methodsRepository.create(methodState);
 
     if (response.status !== 201) {
-      message.error('Failed to create');
+      message.error(ActionMessage.FailedCreate);
       return;
     }
 
     const method = Object.assign({}, methodState);
     method.id = response.data.id;
     setMethodState(method);
-    message.success('Successful create');
+    message.success(ActionMessage.SuccessCreate);
     router.push('/apis/[id]/[method]', `/apis/${api.id}/${response.data.id}`);
   };
 
@@ -70,11 +71,11 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
     const response = await methodsRepository.update(methodState);
 
     if (response.status !== 200) {
-      message.error('Failed to update');
+      message.error(ActionMessage.FailedUpdate);
       return;
     }
 
-    message.success('Successful update');
+    message.success(ActionMessage.SuccessUpdate);
     router.push('/apis/[id]/[method]', `/apis/${api.id}/${methodState.id}`);
   };
 
@@ -82,10 +83,10 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
     const response = await methodsRepository.delete(methodState.id);
 
     if (response.status !== 204) {
-      message.error('Failed to delete');
+      message.error(ActionMessage.FailedDelete);
       return;
     }
-    message.success('Successful delete');
+    message.success(ActionMessage.SuccessDelete);
     router.push('/apis/[id]', `/apis/${api.id}`);
   };
   // #endregion
