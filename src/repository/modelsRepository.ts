@@ -7,7 +7,7 @@ class ModelsRepository {
    * @param  {string} id
    */
   async getById(id: string): Promise<Model> {
-    const response = await Axios.get<Model>(`api/v1/models/${id}`);
+    const response = await Axios.get<Model>(`models/${id}`);
     return response.data;
   }
 }

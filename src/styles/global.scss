@@ -57,6 +57,11 @@ h2 {
   top: 0px;
 }
 
+.ant-select-single > .ant-select-selector {
+  border-radius: 8px !important;
+  font-size: $font-base-size;
+}
+
 .ml-10 {
   margin-left: 10px;
 }
