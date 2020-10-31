@@ -51,18 +51,27 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
   // #endregion
 
   // #region Actions
-  const create = async () => {
-    console.log(methodState);
+  const createMethod = async () => {
     const createdId = await methodsRepository.create(methodState);
     router.push('/apis/[id]/[method]', `/apis/${api.id}/${createdId}`);
   };
-  // #end region
+
+  const updateMethod = async () => {
+    const response = await methodsRepository.update(methodState);
+    if (response.status === 200) router.push('/apis/[id]/[method]', `/apis/${api.id}/${methodState.id}`);
+  };
+
+  const deleteMethod = async () => {
+    const response = await methodsRepository.delete(methodState.id);
+    if (response.status === 204) router.push('/apis/[id]', `/apis/${api.id}`);
+  };
+  // #endregion
 
   return (
     <div>
       <h1>{api.url}</h1>
       <h2>Method Type</h2>
-      <MethodTypeSelect value={methodState.type} className="mb-20" onChange={typeChanged} />
+      <MethodTypeSelect defaultValue={methodState.type} className="mb-20" onChange={typeChanged} />
       <h2>Method URL Parameter</h2>
       <Input placeholder="url" value={methodState.url} className="mb-20" onChange={urlChanged} />
       <h2>Description</h2>
@@ -73,22 +82,24 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
         className="mb-20"
         onChange={descriptionChanged}
       />
-      <Checkbox onChange={isArrayChanged}>Response is Array</Checkbox>
+      <Checkbox className="mb-20" checked={methodState.isArray} onChange={isArrayChanged}>
+        Response is Array
+      </Checkbox>
       <div className="button-area">
         {(() => {
           if (isCreate) {
             return (
-              <Button className="action-button ml-20" size="large" type="primary" onClick={() => create()}>
+              <Button className="action-button ml-20" size="large" type="primary" onClick={() => createMethod()}>
                 Create Method
               </Button>
             );
           } else {
             return (
               <React.Fragment>
-                <Button className="action-button" size="large" type="primary" onClick={() => console.log(methodState)}>
+                <Button className="action-button" size="large" type="primary" onClick={() => updateMethod()}>
                   Save Method
                 </Button>
-                <Button className="action-button ml-20" size="large" danger>
+                <Button className="action-button ml-20" size="large" danger onClick={() => deleteMethod()}>
                   Delete Method
                 </Button>
               </React.Fragment>

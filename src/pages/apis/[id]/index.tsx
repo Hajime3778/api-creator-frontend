@@ -27,7 +27,7 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
   return (
     <div>
       <h1>
-        <input type="text" value={api.name} />
+        <input type="text" defaultValue={api.name} />
       </h1>
       <h2>URL</h2>
       <Input placeholder="url" value={api.url} className="mb-20" />

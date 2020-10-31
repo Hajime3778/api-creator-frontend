@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import Axios, { AxiosResponse } from 'axios';
 import { Method } from 'src/types/method';
 
 class MethodsRepository {
@@ -32,18 +32,18 @@ class MethodsRepository {
    * Methodを更新します。
    * @param  {Method} method
    */
-  async update(method: Method): Promise<Method> {
-    const response = await Axios.put<Method>('methods', method);
-    return response.data;
+  async update(method: Method): Promise<AxiosResponse<any>> {
+    const response = await Axios.put('methods', method);
+    return response;
   }
 
   /**
    * Methodを削除します。
    * @param  {string} id
    */
-  async delete(id: string): Promise<Method> {
-    const response = await Axios.delete<Method>(`methods/${id}`);
-    return response.data;
+  async delete(id: string): Promise<AxiosResponse<any>> {
+    const response = await Axios.delete(`methods/${id}`);
+    return response;
   }
 }
 
