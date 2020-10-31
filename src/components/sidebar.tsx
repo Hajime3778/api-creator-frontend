@@ -11,10 +11,14 @@ import styles from './sidebar.module.scss';
 const { Sider } = Layout;
 const width = '300';
 
+interface Props {
+  onCollapse: (collapsed: boolean) => void;
+}
+
 // 取得したAPI一覧を保持する(あまり良くないやり方)
 let allApis: Api[] = [];
 
-export const Sidebar: React.FC = () => {
+export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
   const apiState: Api[] = [];
   const [apis, setApis] = useState(apiState);
   const [searchText, setSearchText] = useState('');
@@ -43,7 +47,20 @@ export const Sidebar: React.FC = () => {
   };
 
   return (
-    <Sider theme="light" width={width} style={{ color: '#2F2F2F' }} breakpoint="lg" collapsedWidth="0">
+    <Sider
+      theme="light"
+      width={width}
+      style={{
+        color: '#2F2F2F',
+        //overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+      }}
+      breakpoint="lg"
+      collapsedWidth="0"
+      onCollapse={onCollapse}
+    >
       <Link href="/">
         <div className={styles.logoArea}>
           <img src="/images/apig.png" className={styles.logo} alt={'apig'} />
