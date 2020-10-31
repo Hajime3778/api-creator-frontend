@@ -59,6 +59,7 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
       }}
       breakpoint="lg"
       collapsedWidth="0"
+      onBreakpoint={onCollapse}
       onCollapse={onCollapse}
     >
       <Link href="/">
