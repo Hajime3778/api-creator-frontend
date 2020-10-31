@@ -6,7 +6,7 @@ class ApisRepository {
    * APIをすべて取得します。
    */
   async getAll(): Promise<Api[]> {
-    const response = await Axios.get<Api[]>('api/v1/apis');
+    const response = await Axios.get<Api[]>('apis');
     return response.data;
   }
   /**
@@ -14,7 +14,7 @@ class ApisRepository {
    * @param  {string} id
    */
   async getById(id: string): Promise<Api> {
-    const response = await Axios.get<Api>(`api/v1/apis/${id}`);
+    const response = await Axios.get<Api>(`apis/${id}`);
     return response.data;
   }
 }

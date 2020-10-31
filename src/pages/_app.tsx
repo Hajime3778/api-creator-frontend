@@ -6,7 +6,9 @@ import Axios from 'axios';
 import NextApp from 'next/app';
 import { Layout } from 'src/components/layout';
 import { Api } from 'src/types/api';
-Axios.defaults.baseURL = 'http://localhost:4000/';
+
+const apiVersion = 'v1';
+Axios.defaults.baseURL = `http://localhost:4000/api/${apiVersion}/`;
 
 interface Props {
   apis: Api[];

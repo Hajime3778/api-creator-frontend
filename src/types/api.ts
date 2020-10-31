@@ -3,5 +3,5 @@ export type Api = {
   name: string;
   url: string;
   description: string;
-  model_id: string;
+  modelId: string;
 };

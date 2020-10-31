@@ -80,7 +80,7 @@ ApiPage.getInitialProps = async ({ query }) => {
   const id = query.id as string;
   const api = await apisRepository.getById(id);
   const [model, methods] = await Promise.all([
-    modelsRepository.getById(api.model_id),
+    modelsRepository.getById(api.modelId),
     methodsRepository.getByApiId(api.id),
   ]);
   return { api, model, methods };

@@ -2,7 +2,7 @@ import { ApiOutlined } from '@ant-design/icons';
 import { Button, Input, Layout, Menu, Tooltip } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react'; // importしておく
+import React, { useEffect, useState } from 'react';
 import { Api } from 'src/types/api';
 
 import { apisRepository } from '../repository/apisRepository';
