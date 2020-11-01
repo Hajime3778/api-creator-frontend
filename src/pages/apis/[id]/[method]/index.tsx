@@ -3,12 +3,12 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { apisRepository } from 'src/repository/apisRepository';
+import { methodsRepository } from 'src/repository/methodsRepository';
 import { Api } from 'src/types/api';
 import { Method } from 'src/types/method';
 import { ActionMessage } from 'src/utils/messages';
 
-import { apisRepository } from '../../../repository/apisRepository';
-import { methodsRepository } from '../../../repository/methodsRepository';
 import { MethodTypeSelect } from './methodTypeSelect';
 
 const { TextArea } = Input;

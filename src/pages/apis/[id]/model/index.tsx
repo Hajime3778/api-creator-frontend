@@ -2,21 +2,20 @@ import { Button, Input, message } from 'antd';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { apisRepository } from 'src/repository/apisRepository';
+import { modelsRepository } from 'src/repository/modelsRepository';
 import { Api } from 'src/types/api';
 import { Model } from 'src/types/model';
 import { ActionMessage } from 'src/utils/messages';
 
-import { apisRepository } from '../repository/apisRepository';
-import { modelsRepository } from '../repository/modelsRepository';
-
 const { TextArea } = Input;
 
 interface Props {
-  //api: Api;
+  api: Api;
   model: Model;
 }
 
-const ModelPage: NextPage<Props> = ({ model }) => {
+const ModelPage: NextPage<Props> = ({ api, model }) => {
   const router = useRouter();
   const modelId = router?.query.model as string;
   const isCreate = modelId === 'create-model';
@@ -89,7 +88,7 @@ const ModelPage: NextPage<Props> = ({ model }) => {
 
   return (
     <div>
-      <h1>{'api.url'}</h1>
+      <h1>{api.url}</h1>
       <h2>Model Name</h2>
       <Input placeholder="model name" value={modelState.name} className="mb-20" onChange={nameChanged} />
       <h2>Description</h2>
@@ -135,20 +134,21 @@ const ModelPage: NextPage<Props> = ({ model }) => {
 };
 
 ModelPage.getInitialProps = async ({ query }) => {
-  const modelId = query.model as string;
+  const apiId = query.id as string;
+  const api = await apisRepository.getById(apiId);
 
-  if (modelId === 'create-model') {
+  if (api.modelId === '') {
     const model: Model = {
       id: '',
       name: '',
       description: '',
       scheme: '',
     };
-    return { model };
+    return { api, model };
   }
 
-  const model = await modelsRepository.getById(modelId);
-  return { model };
+  const model = await modelsRepository.getById(api.modelId);
+  return { api, model };
 };
 
 export default ModelPage;
