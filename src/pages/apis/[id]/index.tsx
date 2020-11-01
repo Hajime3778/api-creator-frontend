@@ -34,7 +34,10 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
       <h2>Description</h2>
       <TextArea placeholder="description" rows={4} value={api.description} className="mb-20" />
       <h2>Model</h2>
-      <ModelEditButton apiId={api.id} model={model} />
+      <ModelEditButton
+        model={model}
+        onClick={() => router.push('/[model]', `/${api.modelId === '' ? 'create-model' : api.modelId}`)}
+      />
       <h2>
         Methods
         <Tooltip title="Create new method">
