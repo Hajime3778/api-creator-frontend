@@ -52,7 +52,6 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
       width={width}
       style={{
         color: '#2F2F2F',
-        //overflow: 'auto',
         height: '100vh',
         position: 'fixed',
         left: 0,
@@ -84,12 +83,6 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
             </Menu.Item>
           );
         })}
-        {/* <Menu.Item key="/" icon={<HomeOutlined />} onClick={() => router.push('/')}>
-          Home
-        </Menu.Item>
-        <Menu.Item key="/about" icon={<UserOutlined />} onClick={() => router.push('/about')}>
-          About
-        </Menu.Item> */}
       </Menu>
     </Sider>
   );

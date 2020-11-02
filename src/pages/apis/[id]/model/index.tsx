@@ -7,13 +7,34 @@ import { modelsRepository } from 'src/repository/modelsRepository';
 import { Api } from 'src/types/api';
 import { Model } from 'src/types/model';
 import { ActionMessage } from 'src/utils/messages';
-
 const { TextArea } = Input;
 
 interface Props {
   api: Api;
   model: Model;
 }
+
+const sampleJson = `{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+            "description": "An explanation about the purpose of this instance."
+        },
+        "name": {
+            "type": "string",
+            "description": "An explanation about the purpose of this instance."
+        },
+        "email": {
+            "type": "string",
+            "description": "An explanation about the purpose of this instance."
+        },
+        "description": {
+            "type": "string",
+            "description": "An explanation about the purpose of this instance."
+        }
+    }
+}`;
 
 const ModelPage: NextPage<Props> = ({ api, model }) => {
   const router = useRouter();
@@ -44,8 +65,19 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
   // #endregion
 
   // #region Actions
+
+  const isValidJson = (value: string) => {
+    try {
+      JSON.parse(value);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
+
   const createModel = async () => {
     console.log('TODO create Model!');
+
     // const response = await modelsRepository.create(modelState);
 
     // if (response.status !== 201) {
@@ -62,6 +94,11 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
 
   const updateModel = async () => {
     console.log('TODO update Model!');
+    if (isValidJson(modelState.scheme)) {
+      alert('Json format OK!');
+    } else {
+      alert('Oh.. Invalid Json format');
+    }
     // const response = await modelsRepository.update(modelState);
 
     // if (response.status !== 200) {
@@ -102,7 +139,7 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
       <h2>Json Scheme</h2>
       <TextArea
         placeholder="json scheme"
-        rows={4}
+        rows={15}
         value={modelState.scheme}
         className="mb-20"
         onChange={schemeChanged}
@@ -148,6 +185,7 @@ ModelPage.getInitialProps = async ({ query }) => {
   }
 
   const model = await modelsRepository.getById(api.modelId);
+  model.scheme = sampleJson;
   return { api, model };
 };
 
