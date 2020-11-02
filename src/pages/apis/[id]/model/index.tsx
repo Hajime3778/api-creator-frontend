@@ -58,7 +58,7 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
 
   const schemeChanged = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const model = Object.assign({}, modelState);
-    model.scheme = event.target.value;
+    model.schema = event.target.value;
     setModelState(model);
   };
 
@@ -94,7 +94,7 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
 
   const updateModel = async () => {
     console.log('TODO update Model!');
-    if (isValidJson(modelState.scheme)) {
+    if (isValidJson(modelState.schema)) {
       alert('Json format OK!');
     } else {
       alert('Oh.. Invalid Json format');
@@ -140,7 +140,7 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
       <TextArea
         placeholder="json scheme"
         rows={15}
-        value={modelState.scheme}
+        value={modelState.schema}
         className="mb-20"
         onChange={schemeChanged}
       />
@@ -179,13 +179,13 @@ ModelPage.getInitialProps = async ({ query }) => {
       id: '',
       name: '',
       description: '',
-      scheme: '',
+      schema: '',
     };
     return { api, model };
   }
 
   const model = await modelsRepository.getById(api.modelId);
-  model.scheme = sampleJson;
+  model.schema = sampleJson;
   return { api, model };
 };
 

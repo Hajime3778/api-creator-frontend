@@ -2,5 +2,5 @@ export type Model = {
   id: string;
   name: string;
   description: string;
-  scheme: string;
+  schema: string;
 };
