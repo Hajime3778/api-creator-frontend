@@ -6,35 +6,13 @@ import { apisRepository } from 'src/repository/apisRepository';
 import { modelsRepository } from 'src/repository/modelsRepository';
 import { Api } from 'src/types/api';
 import { Model } from 'src/types/model';
-import { ActionMessage } from 'src/utils/messages';
+import { ActionMessage, JsonMessage } from 'src/utils/messages';
 const { TextArea } = Input;
 
 interface Props {
   api: Api;
   model: Model;
 }
-
-const sampleJson = `{
-    "type": "object",
-    "properties": {
-        "id": {
-            "type": "string"
-            "description": "An explanation about the purpose of this instance."
-        },
-        "name": {
-            "type": "string",
-            "description": "An explanation about the purpose of this instance."
-        },
-        "email": {
-            "type": "string",
-            "description": "An explanation about the purpose of this instance."
-        },
-        "description": {
-            "type": "string",
-            "description": "An explanation about the purpose of this instance."
-        }
-    }
-}`;
 
 const ModelPage: NextPage<Props> = ({ api, model }) => {
   const router = useRouter();
@@ -76,50 +54,50 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
   };
 
   const createModel = async () => {
-    console.log('TODO create Model!');
+    if (!isValidJson(modelState.schema)) {
+      message.error(JsonMessage.InValid);
+      return;
+    }
 
-    // const response = await modelsRepository.create(modelState);
+    const response = await modelsRepository.create(modelState);
 
-    // if (response.status !== 201) {
-    //   message.error(ActionMessage.FailedCreate);
-    //   return;
-    // }
+    if (response.status !== 201) {
+      message.error(ActionMessage.FailedCreate);
+      return;
+    }
 
-    // const model = Object.assign({}, modelState);
-    // model.id = response.data.id;
-    // setModelState(model);
-    // message.success(ActionMessage.SuccessCreate);
-    // router.push('/apis/[id]/[model]', `/apis/${api.id}/${response.data.id}`);
+    const model = Object.assign({}, modelState);
+    model.id = response.data.id;
+    setModelState(model);
+    message.success(ActionMessage.SuccessCreate);
+    router.push('/apis/[id]/model', `/apis/${api.id}/model`);
   };
 
   const updateModel = async () => {
-    console.log('TODO update Model!');
-    if (isValidJson(modelState.schema)) {
-      alert('Json format OK!');
-    } else {
-      alert('Oh.. Invalid Json format');
+    if (!isValidJson(modelState.schema)) {
+      message.error(JsonMessage.InValid);
+      return;
     }
-    // const response = await modelsRepository.update(modelState);
+    const response = await modelsRepository.update(modelState);
 
-    // if (response.status !== 200) {
-    //   message.error(ActionMessage.FailedUpdate);
-    //   return;
-    // }
+    if (response.status !== 200) {
+      message.error(ActionMessage.FailedUpdate);
+      return;
+    }
 
-    // message.success(ActionMessage.SuccessUpdate);
-    // router.push('/apis/[id]/[model]', `/apis/${api.id}/${modelState.id}`);
+    message.success(ActionMessage.SuccessUpdate);
+    router.push('/apis/[id]/model', `/apis/${api.id}/model`);
   };
 
   const deleteModel = async () => {
-    console.log('TODO delete Model!');
-    // const response = await modelsRepository.delete(modelState.id);
+    const response = await modelsRepository.delete(modelState.id);
 
-    // if (response.status !== 204) {
-    //   message.error(ActionMessage.FailedDelete);
-    //   return;
-    // }
-    // message.success(ActionMessage.SuccessDelete);
-    // router.push('/apis/[id]', `/apis/${api.id}`);
+    if (response.status !== 204) {
+      message.error(ActionMessage.FailedDelete);
+      return;
+    }
+    message.success(ActionMessage.SuccessDelete);
+    router.push('/apis/[id]', `/apis/${api.id}`);
   };
   // #endregion
 
@@ -173,10 +151,12 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
 ModelPage.getInitialProps = async ({ query }) => {
   const apiId = query.id as string;
   const api = await apisRepository.getById(apiId);
+  const model = await modelsRepository.getByApiId(apiId);
 
-  if (api.modelId === '') {
+  if (model == null) {
     const model: Model = {
       id: '',
+      apiId: apiId,
       name: '',
       description: '',
       schema: '',
@@ -184,8 +164,6 @@ ModelPage.getInitialProps = async ({ query }) => {
     return { api, model };
   }
 
-  const model = await modelsRepository.getById(api.modelId);
-  model.schema = sampleJson;
   return { api, model };
 };
 

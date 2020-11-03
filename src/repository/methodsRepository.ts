@@ -7,6 +7,7 @@ class MethodsRepository {
    */
   async getByApiId(apiId: string): Promise<Method[]> {
     const response = await Axios.get<Method[]>(`apis/${apiId}/methods`);
+    if (response.status !== 200) return [];
     return response.data;
   }
 

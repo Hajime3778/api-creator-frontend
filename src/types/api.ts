@@ -3,5 +3,4 @@ export type Api = {
   name: string;
   url: string;
   description: string;
-  modelId: string;
 };

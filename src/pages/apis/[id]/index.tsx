@@ -16,7 +16,7 @@ const { TextArea } = Input;
 
 interface Props {
   api: Api;
-  model: Model;
+  model: Model | null;
   methods: Method[];
 }
 
@@ -34,7 +34,13 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
       <h2>Description</h2>
       <TextArea placeholder="description" rows={4} value={api.description} className="mb-20" />
       <h2>Model</h2>
-      <ModelEditButton model={model} onClick={() => router.push('/apis/[id]/model', `/apis/${api.id}/model`)} />
+      {(() => {
+        if (model != null) {
+          return (
+            <ModelEditButton model={model} onClick={() => router.push('/apis/[id]/model', `/apis/${api.id}/model`)} />
+          );
+        }
+      })()}
       <h2>
         Methods
         <Tooltip title="Create new method">
@@ -80,9 +86,10 @@ ApiPage.getInitialProps = async ({ query }) => {
   const id = query.id as string;
   const api = await apisRepository.getById(id);
   const [model, methods] = await Promise.all([
-    modelsRepository.getById(api.modelId),
+    modelsRepository.getByApiId(api.id),
     methodsRepository.getByApiId(api.id),
   ]);
+
   return { api, model, methods };
 };
 
