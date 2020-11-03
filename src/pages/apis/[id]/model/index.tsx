@@ -16,8 +16,7 @@ interface Props {
 
 const ModelPage: NextPage<Props> = ({ api, model }) => {
   const router = useRouter();
-  const modelId = router?.query.model as string;
-  const isCreate = modelId === 'create-model';
+  const isCreate = model.id === '';
 
   // #region State
   const [modelState, setModelState] = useState(model);
