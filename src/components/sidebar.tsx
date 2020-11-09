@@ -24,8 +24,7 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
   const [searchText, setSearchText] = useState('');
   const [selectedApiId, setSelectedApiId] = useState('');
   const router = useRouter();
-  const pathName = router?.pathname;
-  const apiId = pathName === '/apis/[id]' ? (router?.query.id as string) : '';
+  const apiId = router?.query.id as string;
 
   useEffect(() => {
     const getApis = async () => {
@@ -35,7 +34,7 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
       setApis(apis);
     };
     getApis();
-  }, []);
+  }, [router, setApis]);
 
   useEffect(() => {
     setSelectedApiId(apiId);
