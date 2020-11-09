@@ -38,7 +38,6 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
 
   useEffect(() => {
     setSelectedApiId(apiId);
-    console.log(apiId);
   }, [apiId, setSelectedApiId]);
 
   // 検索テキストボックスが変更されたとき
