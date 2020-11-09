@@ -70,7 +70,7 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
       <div className={styles.searchArea}>
         <Input value={searchText} onChange={textChanged} className={styles.searchText} placeholder="search API" />
         <Tooltip title="Create new API">
-          <Button className="ml-10" type="primary">
+          <Button className="ml-10" type="primary" onClick={() => router.push('/apis/[id]', '/apis/create-api')}>
             +New
           </Button>
         </Tooltip>

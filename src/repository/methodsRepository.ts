@@ -15,8 +15,9 @@ class MethodsRepository {
    * Methodをidで1件取得します。
    * @param  {string} id
    */
-  async getById(id: string): Promise<Method> {
+  async getById(id: string): Promise<Method | null> {
     const response = await Axios.get<Method>(`methods/${id}`);
+    if (response.status !== 200) return null;
     return response.data;
   }
 

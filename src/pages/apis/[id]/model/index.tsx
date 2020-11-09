@@ -1,5 +1,6 @@
 import { Button, Input, message } from 'antd';
 import { NextPage } from 'next';
+import DefaultErrorPage from 'next/error';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { apisRepository } from 'src/repository/apisRepository';
@@ -10,7 +11,7 @@ import { ActionMessage, JsonMessage } from 'src/utils/messages';
 const { TextArea } = Input;
 
 interface Props {
-  api: Api;
+  api: Api | null;
   model: Model;
 }
 
@@ -19,6 +20,7 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
   const isCreate = model.id === '';
 
   // #region State
+
   const [modelState, setModelState] = useState(model);
 
   const nameChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +71,7 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
     model.id = response.data.id;
     setModelState(model);
     message.success(ActionMessage.SuccessCreate);
-    router.push('/apis/[id]/model', `/apis/${api.id}/model`);
+    router.push('/apis/[id]/model', `/apis/${api?.id}/model`);
   };
 
   const updateModel = async () => {
@@ -85,7 +87,7 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
     }
 
     message.success(ActionMessage.SuccessUpdate);
-    router.push('/apis/[id]/model', `/apis/${api.id}/model`);
+    router.push('/apis/[id]/model', `/apis/${api?.id}/model`);
   };
 
   const deleteModel = async () => {
@@ -96,9 +98,11 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
       return;
     }
     message.success(ActionMessage.SuccessDelete);
-    router.push('/apis/[id]', `/apis/${api.id}`);
+    router.push('/apis/[id]', `/apis/${api?.id}`);
   };
   // #endregion
+
+  if (!api) return <DefaultErrorPage statusCode={404} />;
 
   return (
     <div>
@@ -149,7 +153,18 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
 
 ModelPage.getInitialProps = async ({ query }) => {
   const apiId = query.id as string;
-  const api = await apisRepository.getById(apiId);
+  // クエリがcreate-apiではない場合、親APIは作成済み
+  const isCreatedApi = apiId !== 'create-api';
+
+  const api = isCreatedApi
+    ? await apisRepository.getById(apiId)
+    : {
+        id: 'create-api',
+        name: '',
+        url: '',
+        description: '',
+      };
+
   const model = await modelsRepository.getByApiId(apiId);
 
   if (model == null) {
