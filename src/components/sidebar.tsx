@@ -22,9 +22,9 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
   const apiState: Api[] = [];
   const [apis, setApis] = useState(apiState);
   const [searchText, setSearchText] = useState('');
+  const [selectedApiId, setSelectedApiId] = useState('');
   const router = useRouter();
-  const pathName = router?.pathname;
-  const apiId = pathName === '/apis/[id]' ? (router?.query.id as string) : '';
+  const apiId = router?.query.id as string;
 
   useEffect(() => {
     const getApis = async () => {
@@ -34,7 +34,11 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
       setApis(apis);
     };
     getApis();
-  }, []);
+  }, [router, setApis]);
+
+  useEffect(() => {
+    setSelectedApiId(apiId);
+  }, [apiId, setSelectedApiId]);
 
   // 検索テキストボックスが変更されたとき
   const textChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +79,7 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
           </Button>
         </Tooltip>
       </div>
-      <Menu theme="light" mode="inline" defaultSelectedKeys={[apiId]}>
+      <Menu theme="light" mode="inline" selectedKeys={[selectedApiId]}>
         {apis.map((api) => {
           return (
             <Menu.Item key={api.id} icon={<ApiOutlined />} onClick={() => router.push('/apis/[id]', `/apis/${api.id}`)}>

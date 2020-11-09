@@ -166,39 +166,12 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
   );
 };
 
-// ApiPage.getInitialProps = async ({ query }) => {
-//   const id = query.id as string;
-//   // API作成画面時
-//   const isCreated = id === 'create-api';
-
-//   const apiResponse = isCreated
-//     ? {
-//         id: 'create-api',
-//         name: '',
-//         url: '',
-//         description: '',
-//       }
-//     : await apisRepository.getById(id);
-
-//   if (apiResponse == null) return { api: null, model: null, methods: [] };
-
-//   const api = Object.assign({}, apiResponse);
-//   const [model, methods] = await Promise.all([
-//     modelsRepository.getByApiId(api.id),
-//     methodsRepository.getByApiId(api.id),
-//   ]);
-
-//   return { api, model, methods };
-// };
-
-export default ApiPage;
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const id = ctx.params?.id as string;
   // API作成画面時
   const isCreated = id === 'create-api';
 
-  const apiResponse = isCreated
+  const api = isCreated
     ? {
         id: 'create-api',
         name: '',
@@ -207,10 +180,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     : await apisRepository.getById(id);
 
-  if (apiResponse == null) return { props: { api: null, model: null, methods: [] } };
+  if (api == null) return { props: { api: null, model: null, methods: [] } };
 
-  const api = Object.assign({}, apiResponse);
-  console.log(api);
   const [model, methods] = await Promise.all([
     modelsRepository.getByApiId(api.id),
     methodsRepository.getByApiId(api.id),
@@ -218,3 +189,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return { props: { api, model, methods } };
 };
+
+export default ApiPage;
