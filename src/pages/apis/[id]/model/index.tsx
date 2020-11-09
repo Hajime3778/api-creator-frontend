@@ -1,5 +1,5 @@
 import { Button, Input, message } from 'antd';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import DefaultErrorPage from 'next/error';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -151,8 +151,8 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
   );
 };
 
-ModelPage.getInitialProps = async ({ query }) => {
-  const apiId = query.id as string;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const apiId = ctx.params?.id as string;
   // クエリがcreate-apiではない場合、親APIは作成済み
   const isCreatedApi = apiId !== 'create-api';
 
@@ -175,10 +175,10 @@ ModelPage.getInitialProps = async ({ query }) => {
       description: '',
       schema: '',
     };
-    return { api, model };
+    return { props: { api, model } };
   }
 
-  return { api, model };
+  return { props: { api, model } };
 };
 
 export default ModelPage;

@@ -1,6 +1,6 @@
 import { Button, Checkbox, Input, message } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import DefaultErrorPage from 'next/error';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -137,9 +137,9 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
   );
 };
 
-MethodPage.getInitialProps = async ({ query }) => {
-  const apiId = query.id as string;
-  const methodId = query.method as string;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const apiId = ctx.params?.id as string;
+  const methodId = ctx.params?.method as string;
 
   if (methodId === 'create-method') {
     const api = await apisRepository.getById(apiId);
@@ -154,11 +154,11 @@ MethodPage.getInitialProps = async ({ query }) => {
       responseModelId: '',
       isArray: false,
     };
-    return { api, method };
+    return { props: { api, method } };
   }
 
   const [api, method] = await Promise.all([apisRepository.getById(apiId), methodsRepository.getById(methodId)]);
-  return { api, method };
+  return { props: { api, method } };
 };
 
 export default MethodPage;
