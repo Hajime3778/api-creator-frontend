@@ -52,7 +52,6 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
       width={width}
       style={{
         color: '#2F2F2F',
-        //overflow: 'auto',
         height: '100vh',
         position: 'fixed',
         left: 0,
@@ -71,7 +70,7 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
       <div className={styles.searchArea}>
         <Input value={searchText} onChange={textChanged} className={styles.searchText} placeholder="search API" />
         <Tooltip title="Create new API">
-          <Button className="ml-10" type="primary">
+          <Button className="ml-10" type="primary" onClick={() => router.push('/apis/[id]', '/apis/create-api')}>
             +New
           </Button>
         </Tooltip>
@@ -84,12 +83,6 @@ export const Sidebar: React.FC<Props> = ({ onCollapse }) => {
             </Menu.Item>
           );
         })}
-        {/* <Menu.Item key="/" icon={<HomeOutlined />} onClick={() => router.push('/')}>
-          Home
-        </Menu.Item>
-        <Menu.Item key="/about" icon={<UserOutlined />} onClick={() => router.push('/about')}>
-          About
-        </Menu.Item> */}
       </Menu>
     </Sider>
   );

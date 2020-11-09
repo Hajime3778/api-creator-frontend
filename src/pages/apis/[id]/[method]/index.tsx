@@ -1,21 +1,22 @@
 import { Button, Checkbox, Input, message } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { NextPage } from 'next';
+import DefaultErrorPage from 'next/error';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { apisRepository } from 'src/repository/apisRepository';
+import { methodsRepository } from 'src/repository/methodsRepository';
 import { Api } from 'src/types/api';
 import { Method } from 'src/types/method';
 import { ActionMessage } from 'src/utils/messages';
 
-import { apisRepository } from '../../../repository/apisRepository';
-import { methodsRepository } from '../../../repository/methodsRepository';
 import { MethodTypeSelect } from './methodTypeSelect';
 
 const { TextArea } = Input;
 
 interface Props {
-  api: Api;
-  method: Method;
+  api: Api | null;
+  method: Method | null;
 }
 
 const MethodPage: NextPage<Props> = ({ api, method }) => {
@@ -23,9 +24,9 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
   const methodId = router?.query.method as string;
   const isCreate = methodId === 'create-method';
 
-  // #region State
-  const [methodState, setMethodState] = useState(method);
+  const [methodState, setMethodState] = useState(method as Method);
 
+  // #region State
   const typeChanged = (value: string) => {
     const method = Object.assign({}, methodState);
     method.type = value;
@@ -64,7 +65,7 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
     method.id = response.data.id;
     setMethodState(method);
     message.success(ActionMessage.SuccessCreate);
-    router.push('/apis/[id]/[method]', `/apis/${api.id}/${response.data.id}`);
+    router.push('/apis/[id]/[method]', `/apis/${api?.id}/${response.data.id}`);
   };
 
   const updateMethod = async () => {
@@ -76,7 +77,7 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
     }
 
     message.success(ActionMessage.SuccessUpdate);
-    router.push('/apis/[id]/[method]', `/apis/${api.id}/${methodState.id}`);
+    router.push('/apis/[id]/[method]', `/apis/${api?.id}/${methodState.id}`);
   };
 
   const deleteMethod = async () => {
@@ -87,10 +88,11 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
       return;
     }
     message.success(ActionMessage.SuccessDelete);
-    router.push('/apis/[id]', `/apis/${api.id}`);
+    router.push('/apis/[id]', `/apis/${api?.id}`);
   };
   // #endregion
 
+  if (!api || !method) return <DefaultErrorPage statusCode={404} />;
   return (
     <div>
       <h1>{api.url}</h1>
@@ -102,7 +104,7 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
       <TextArea
         placeholder="description"
         rows={4}
-        value={methodState.description}
+        value={methodState?.description}
         className="mb-20"
         onChange={descriptionChanged}
       />

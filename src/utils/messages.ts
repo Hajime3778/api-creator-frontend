@@ -1,10 +1,3 @@
-// export const successCreate = 'Successful create';
-// export const successUpdate = 'Successful update';
-// export const successDelete = 'Successful delete';
-// export const failedCreate = 'Failed create';
-// export const failedUpdate = 'Failed update';
-// export const failedDelete = 'Failed delete';
-
 export const ActionMessage = {
   SuccessCreate: 'Successful create',
   SuccessUpdate: 'Successful update',
@@ -14,3 +7,9 @@ export const ActionMessage = {
   FailedDelete: 'Failed delete',
 } as const;
 type ActionMessage = typeof ActionMessage[keyof typeof ActionMessage];
+
+export const JsonMessage = {
+  Valid: 'Json format OK!',
+  InValid: 'JSONの形式が正しくありません',
+} as const;
+type JsonMessage = typeof JsonMessage[keyof typeof JsonMessage];
