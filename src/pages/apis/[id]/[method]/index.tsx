@@ -57,7 +57,8 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
     const response = await methodsRepository.create(methodState);
 
     if (response.status !== 201) {
-      message.error(ActionMessage.FailedCreate);
+      const foo: any = response.data;
+      message.error(foo.error);
       return;
     }
 
