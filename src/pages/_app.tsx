@@ -9,7 +9,7 @@ import { Api } from 'src/types/api';
 
 const apiVersion = 'v1';
 Axios.defaults.baseURL = `http://localhost:4000/api/${apiVersion}/`;
-Axios.defaults.validateStatus = (status) => (status >= 200 && status < 300) || status == 404;
+Axios.defaults.validateStatus = (status) => (status >= 200 && status < 300) || status == 400 || status == 404;
 
 interface Props {
   apis: Api[];

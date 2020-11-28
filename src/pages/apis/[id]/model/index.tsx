@@ -6,8 +6,11 @@ import React, { useState } from 'react';
 import { apisRepository } from 'src/repository/apisRepository';
 import { modelsRepository } from 'src/repository/modelsRepository';
 import { Api } from 'src/types/api';
+import { CreatedResponse } from 'src/types/createdResponse';
+import { Error } from 'src/types/error';
 import { Model } from 'src/types/model';
 import { ActionMessage, JsonMessage } from 'src/utils/messages';
+
 const { TextArea } = Input;
 
 interface Props {
@@ -63,11 +66,13 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
     const response = await modelsRepository.create(modelState);
 
     if (response.status !== 201) {
-      message.error(ActionMessage.FailedCreate);
+      const error: Error = response.data as Error;
+      message.error(error.error);
       return;
     }
 
     const model = Object.assign({}, modelState);
+    response.data = response.data as CreatedResponse;
     model.id = response.data.id;
     setModelState(model);
     message.success(ActionMessage.SuccessCreate);
@@ -82,7 +87,8 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
     const response = await modelsRepository.update(modelState);
 
     if (response.status !== 200) {
-      message.error(ActionMessage.FailedUpdate);
+      const error: Error = response.data as Error;
+      message.error(error.error);
       return;
     }
 

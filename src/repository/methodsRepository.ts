@@ -1,4 +1,6 @@
 import Axios, { AxiosResponse } from 'axios';
+import { CreatedResponse } from 'src/types/createdResponse';
+import { Error } from 'src/types/error';
 import { Method } from 'src/types/method';
 
 class MethodsRepository {
@@ -25,7 +27,7 @@ class MethodsRepository {
    * Methodを作成します。
    * @param  {Method} method
    */
-  async create(method: Method): Promise<AxiosResponse<{ id: string }>> {
+  async create(method: Method): Promise<AxiosResponse<CreatedResponse | Error>> {
     const response = await Axios.post<{ id: string }>('methods', method);
     return response;
   }
