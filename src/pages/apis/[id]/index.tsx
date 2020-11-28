@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Tooltip } from 'antd';
+import { Button, Input, message, Tooltip } from 'antd';
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import DefaultErrorPage from 'next/error';
@@ -144,7 +144,9 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
         } else {
           return (
             <div className="mb-20">
-              <input placeholder="name" type="text" value={apiState.name} onChange={nameChanged} />
+              <h1>
+                <input placeholder="name" type="text" value={apiState.name} onChange={nameChanged} />
+              </h1>
             </div>
           );
         }
