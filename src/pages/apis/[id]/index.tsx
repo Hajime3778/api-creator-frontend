@@ -37,6 +37,7 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
     apiが更新された場合、再レンダリングする。
   */
   useEffect(() => {
+    console.log(api?.name);
     setApiState(Object.assign({}, api));
   }, [api, setApiState]);
 
@@ -114,7 +115,7 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
           if (isCreate) {
             return <Input placeholder="name" value={apiState.name} onChange={nameChanged} />;
           } else {
-            return <input placeholder="name" type="text" defaultValue={apiState.name} onChange={nameChanged} />;
+            return <input placeholder="name" type="text" value={apiState.name} onChange={nameChanged} />;
           }
         })()}
       </h1>
