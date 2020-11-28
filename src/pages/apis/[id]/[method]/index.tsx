@@ -7,6 +7,8 @@ import React, { useState } from 'react';
 import { apisRepository } from 'src/repository/apisRepository';
 import { methodsRepository } from 'src/repository/methodsRepository';
 import { Api } from 'src/types/api';
+import { CreatedResponse } from 'src/types/createdResponse';
+import { Error } from 'src/types/error';
 import { Method } from 'src/types/method';
 import { ActionMessage } from 'src/utils/messages';
 
@@ -57,12 +59,13 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
     const response = await methodsRepository.create(methodState);
 
     if (response.status !== 201) {
-      const foo: any = response.data;
-      message.error(foo.error);
+      const error: Error = response.data as Error;
+      message.error(error.error);
       return;
     }
 
     const method = Object.assign({}, methodState);
+    response.data = response.data as CreatedResponse;
     method.id = response.data.id;
     setMethodState(method);
     message.success(ActionMessage.SuccessCreate);
@@ -73,7 +76,8 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
     const response = await methodsRepository.update(methodState);
 
     if (response.status !== 200) {
-      message.error(ActionMessage.FailedUpdate);
+      const error: Error = response.data as Error;
+      message.error(error.error);
       return;
     }
 
@@ -85,7 +89,8 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
     const response = await methodsRepository.delete(methodState.id);
 
     if (response.status !== 204) {
-      message.error(ActionMessage.FailedDelete);
+      const error: Error = response.data as Error;
+      message.error(error.error);
       return;
     }
     message.success(ActionMessage.SuccessDelete);

@@ -1,5 +1,7 @@
 import Axios, { AxiosResponse } from 'axios';
 import { Api } from 'src/types/api';
+import { CreatedResponse } from 'src/types/createdResponse';
+import { Error } from 'src/types/error';
 
 class ApisRepository {
   /**
@@ -23,10 +25,10 @@ class ApisRepository {
    * APIを作成します。
    * @param  {API} api
    */
-  async create(api: Api): Promise<AxiosResponse<{ id: string }>> {
+  async create(api: Api): Promise<AxiosResponse<CreatedResponse | Error>> {
     // idが指定された場合、採番されないため初期化する。
     api.id = '';
-    const response = await Axios.post<{ id: string }>('apis', api);
+    const response = await Axios.post('apis', api);
     return response;
   }
 

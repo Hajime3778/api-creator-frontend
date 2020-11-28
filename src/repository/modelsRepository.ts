@@ -1,4 +1,6 @@
 import Axios, { AxiosResponse } from 'axios';
+import { CreatedResponse } from 'src/types/createdResponse';
+import { Error } from 'src/types/error';
 import { Model } from 'src/types/model';
 
 class ModelsRepository {
@@ -25,8 +27,8 @@ class ModelsRepository {
    * Modelを作成します。
    * @param  {Model} model
    */
-  async create(model: Model): Promise<AxiosResponse<{ id: string }>> {
-    const response = await Axios.post<{ id: string }>('models', model);
+  async create(model: Model): Promise<AxiosResponse<CreatedResponse | Error>> {
+    const response = await Axios.post('models', model);
     return response;
   }
 

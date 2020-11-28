@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { ModelEditButton } from 'src/components/common/modelEditButton';
 import { Api } from 'src/types/api';
+import { CreatedResponse } from 'src/types/createdResponse';
+import { Error } from 'src/types/error';
 import { Method } from 'src/types/method';
 import { Model } from 'src/types/model';
 import { ActionMessage } from 'src/utils/messages';
@@ -66,10 +68,12 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
     const response = await apisRepository.create(apiState);
 
     if (response.status !== 201) {
-      message.error(ActionMessage.FailedCreate);
+      const error: Error = response.data as Error;
+      message.error(error.error);
       return;
     }
     const api = Object.assign({}, apiState);
+    response.data = response.data as CreatedResponse;
     api.id = response.data.id;
     setApiState(api);
     message.success(ActionMessage.SuccessCreate);
@@ -80,7 +84,8 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
     const response = await apisRepository.update(apiState);
 
     if (response.status !== 200) {
-      message.error(ActionMessage.FailedUpdate);
+      const error: Error = response.data as Error;
+      message.error(error.error);
       return;
     }
 
