@@ -55,7 +55,23 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
   // #endregion
 
   // #region Actions
+
+  const requireInputValidate = () => {
+    let ret = true;
+    let errMsg = '';
+    if (methodState.type === '') {
+      errMsg += 'MethodTypeが入力されていません\n';
+      ret = false;
+    }
+
+    if (errMsg !== '') {
+      message.error(errMsg);
+    }
+    return ret;
+  };
+
   const createMethod = async () => {
+    if (!requireInputValidate()) return;
     const response = await methodsRepository.create(methodState);
 
     if (response.status !== 201) {
@@ -73,6 +89,7 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
   };
 
   const updateMethod = async () => {
+    if (!requireInputValidate()) return;
     const response = await methodsRepository.update(methodState);
 
     if (response.status !== 200) {
@@ -105,7 +122,7 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
       <h2>Method Type</h2>
       <MethodTypeSelect defaultValue={methodState.type} className="mb-20" onChange={typeChanged} />
       <h2>Method URL Parameter</h2>
-      <Input placeholder="url" value={methodState.url} className="mb-20" onChange={urlChanged} />
+      <Input placeholder="/{param}" value={methodState.url} className="mb-20" onChange={urlChanged} />
       <h2>Description</h2>
       <TextArea
         placeholder="description"
