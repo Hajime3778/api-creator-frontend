@@ -1,4 +1,4 @@
-import { Button, Input, message, Tooltip } from 'antd';
+import { Button, Form, Input, message, Tooltip } from 'antd';
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import DefaultErrorPage from 'next/error';
@@ -65,7 +65,27 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
 
   // #region Actions
 
+  const requireInputValidate = () => {
+    let ret = true;
+    let errMsg = '';
+    if (apiState.name === '') {
+      errMsg += '名前が入力されていません\n';
+      ret = false;
+    }
+    if (apiState.url === '') {
+      errMsg += 'URLが入力されていません\n';
+      ret = false;
+    }
+
+    if (errMsg !== '') {
+      message.error(errMsg);
+    }
+    return ret;
+  };
+
   const createApi = async () => {
+    if (!requireInputValidate()) return;
+
     const response = await apisRepository.create(apiState);
 
     if (response.status !== 201) {
@@ -82,6 +102,7 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
   };
 
   const updateApi = async () => {
+    if (!requireInputValidate()) return;
     const response = await apisRepository.update(apiState);
 
     if (response.status !== 200) {
@@ -110,17 +131,26 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
 
   return (
     <div>
-      <h1>
-        {(() => {
-          if (isCreate) {
-            return <Input placeholder="name" value={apiState.name} onChange={nameChanged} />;
-          } else {
-            return <input placeholder="name" type="text" value={apiState.name} onChange={nameChanged} />;
-          }
-        })()}
-      </h1>
+      {(() => {
+        if (isCreate) {
+          return (
+            <React.Fragment>
+              <h2>Name</h2>
+              <div className="mb-20">
+                <Input placeholder="name" value={apiState.name} onChange={nameChanged} />
+              </div>
+            </React.Fragment>
+          );
+        } else {
+          return (
+            <div className="mb-20">
+              <input placeholder="name" type="text" value={apiState.name} onChange={nameChanged} />
+            </div>
+          );
+        }
+      })()}
       <h2>URL</h2>
-      <Input placeholder="url" value={apiState.url} className="mb-20" onChange={urlChanged} />
+      <Input placeholder="my-project/api/sample" value={apiState.url} className="mb-20" onChange={urlChanged} />
       <h2>Description</h2>
       <TextArea
         placeholder="description"
@@ -129,23 +159,34 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
         className="mb-20"
         onChange={descriptionChanged}
       />
-      <h2>Model</h2>
-      <ModelEditButton model={model} onClick={() => router.push('/apis/[id]/model', `/apis/${apiState.id}/model`)} />
-      <h2>
-        Methods
-        <Tooltip title="Create new method">
-          <Button
-            className="ml-10"
-            type="primary"
-            onClick={() => router.push('/apis/[id]/[method]', `/apis/${apiState.id}/create-method`)}
-          >
-            +New
-          </Button>
-        </Tooltip>
-      </h2>
-      <div className="methods-table-area mb-20">
-        <MethodsTable api={apiState} methods={methods} />
-      </div>
+      {(() => {
+        if (!isCreate) {
+          return (
+            <React.Fragment>
+              <h2>Model</h2>
+              <ModelEditButton
+                model={model}
+                onClick={() => router.push('/apis/[id]/model', `/apis/${apiState.id}/model`)}
+              />
+              <h2>
+                Methods
+                <Tooltip title="Create new method">
+                  <Button
+                    className="ml-10"
+                    type="primary"
+                    onClick={() => router.push('/apis/[id]/[method]', `/apis/${apiState.id}/create-method`)}
+                  >
+                    +New
+                  </Button>
+                </Tooltip>
+              </h2>
+              <div className="methods-table-area mb-20">
+                <MethodsTable api={apiState} methods={methods} />
+              </div>
+            </React.Fragment>
+          );
+        }
+      })()}
       <div className="button-area">
         {(() => {
           if (isCreate) {

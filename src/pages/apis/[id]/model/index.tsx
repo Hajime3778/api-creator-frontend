@@ -48,6 +48,28 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
 
   // #region Actions
 
+  const inputValidate = () => {
+    let ret = true;
+    let errMsg = '';
+    if (modelState.name === '') {
+      errMsg += '名前が入力されていません\n';
+      ret = false;
+    }
+    if (modelState.schema === '') {
+      errMsg += 'JsonSchemaが入力されていません\n';
+      ret = false;
+    } else {
+      if (!isValidJson(modelState.schema)) {
+        errMsg += JsonMessage.InValid;
+      }
+    }
+
+    if (errMsg !== '') {
+      message.error(errMsg);
+    }
+    return ret;
+  };
+
   const isValidJson = (value: string) => {
     try {
       JSON.parse(value);
@@ -58,10 +80,7 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
   };
 
   const createModel = async () => {
-    if (!isValidJson(modelState.schema)) {
-      message.error(JsonMessage.InValid);
-      return;
-    }
+    if (!inputValidate()) return;
 
     const response = await modelsRepository.create(modelState);
 
@@ -80,10 +99,8 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
   };
 
   const updateModel = async () => {
-    if (!isValidJson(modelState.schema)) {
-      message.error(JsonMessage.InValid);
-      return;
-    }
+    if (!inputValidate()) return;
+
     const response = await modelsRepository.update(modelState);
 
     if (response.status !== 200) {
@@ -123,9 +140,9 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
         className="mb-20"
         onChange={descriptionChanged}
       />
-      <h2>Json Scheme</h2>
+      <h2>Json Schema</h2>
       <TextArea
-        placeholder="json scheme"
+        placeholder="json schema"
         rows={15}
         value={modelState.schema}
         className="mb-20"
