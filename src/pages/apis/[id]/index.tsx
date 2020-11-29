@@ -1,4 +1,5 @@
-import { Button, Input, message, Tooltip } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Button, Input, message, Modal, Tooltip } from 'antd';
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import DefaultErrorPage from 'next/error';
@@ -24,6 +25,7 @@ interface Props {
   model: Model | null;
   methods: Method[];
 }
+const { confirm } = Modal;
 
 const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
   const router = useRouter();
@@ -125,6 +127,31 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
     message.success(ActionMessage.SuccessDelete);
     router.push('/');
   };
+
+  const newMethod = async () => {
+    if (methods.length !== 0) {
+      router.push('/apis/[id]/[method]', `/apis/${apiState.id}/create-method`);
+      return;
+    }
+    confirm({
+      title: 'デフォルトメソッドを作成しますか？',
+      icon: <ExclamationCircleOutlined />,
+      content: (
+        <div>
+          <p>メソッドが作成されていません。</p>
+          <p>デフォルトのCRUDメソッドを作成しますか？</p>
+        </div>
+      ),
+      onOk() {
+        return;
+      },
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      onCancel() {
+        router.push('/apis/[id]/[method]', `/apis/${apiState.id}/create-method`);
+        return;
+      },
+    });
+  };
   // #endregion
 
   if (!api) return <DefaultErrorPage statusCode={404} />;
@@ -173,11 +200,7 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
               <h2>
                 Methods
                 <Tooltip title="Create new method">
-                  <Button
-                    className="ml-10"
-                    type="primary"
-                    onClick={() => router.push('/apis/[id]/[method]', `/apis/${apiState.id}/create-method`)}
-                  >
+                  <Button className="ml-10" type="primary" onClick={newMethod}>
                     +New
                   </Button>
                 </Tooltip>
