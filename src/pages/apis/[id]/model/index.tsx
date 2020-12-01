@@ -12,6 +12,25 @@ import { Model } from 'src/types/model';
 import { ActionMessage, JsonMessage } from 'src/utils/messages';
 
 const { TextArea } = Input;
+const schemaPlaceholder = `{
+    "type": "object",
+    "additionalProperties": false,
+    "keys": ["id"],
+    "properties": {
+        "id": {
+            "type": "string",
+            "description": "ID"
+        },
+        "name": {
+            "type": "string",
+            "description": "名前"
+        },
+        "age": {
+            "type": "int",
+            "description": "年齢"
+        }
+    }
+}`;
 
 interface Props {
   api: Api | null;
@@ -142,7 +161,7 @@ const ModelPage: NextPage<Props> = ({ api, model }) => {
       />
       <h2>Json Schema</h2>
       <TextArea
-        placeholder="json schema"
+        placeholder={schemaPlaceholder}
         rows={15}
         value={modelState.schema}
         className="mb-20"
