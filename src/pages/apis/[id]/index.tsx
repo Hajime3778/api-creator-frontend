@@ -39,7 +39,6 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
     apiが更新された場合、再レンダリングする。
   */
   useEffect(() => {
-    console.log(api?.name);
     setApiState(Object.assign({}, api));
   }, [api, setApiState]);
 
@@ -142,7 +141,15 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
           <p>デフォルトのCRUDメソッドを作成しますか？</p>
         </div>
       ),
-      onOk() {
+      async onOk() {
+        const response = await methodsRepository.createDefaultMethods(apiState.id);
+        if (response.status !== 201) {
+          const error: Error = response.data as Error;
+          message.error(error.error);
+          return;
+        }
+        message.success(ActionMessage.SuccessCreate);
+        router.push('/apis/[id]', `/apis/${apiState.id}`);
         return;
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function

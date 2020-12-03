@@ -33,6 +33,15 @@ class MethodsRepository {
   }
 
   /**
+   * デフォルトのCRUDMethodを作成します。
+   * @param  {Method} method
+   */
+  async createDefaultMethods(apiId: string): Promise<AxiosResponse<Method[] | Error>> {
+    const response = await Axios.post(`apis/${apiId}/create-default-methods`);
+    return response;
+  }
+
+  /**
    * Methodを更新します。
    * @param  {Method} method
    */
