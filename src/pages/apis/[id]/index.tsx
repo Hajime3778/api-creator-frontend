@@ -12,6 +12,8 @@ import { Error } from 'src/types/error';
 import { Method } from 'src/types/method';
 import { Model } from 'src/types/model';
 import { ActionMessage } from 'src/utils/messages';
+import { InvalidMessage } from 'src/utils/messages';
+import { validation } from 'src/utils/validation';
 
 import { apisRepository } from '../../../repository/apisRepository';
 import { methodsRepository } from '../../../repository/methodsRepository';
@@ -85,7 +87,14 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
   };
 
   const createApi = async () => {
-    if (!requireInputValidate()) return;
+    if (!requireInputValidate()) {
+      message.error(InvalidMessage.InvalidRequire);
+      return;
+    }
+    if (!validation.isHalfWidthOnly(apiState.url)) {
+      message.error(InvalidMessage.InvalidUrl);
+      return;
+    }
 
     const response = await apisRepository.create(apiState);
 
@@ -103,7 +112,15 @@ const ApiPage: NextPage<Props> = ({ api, model, methods }) => {
   };
 
   const updateApi = async () => {
-    if (!requireInputValidate()) return;
+    if (!requireInputValidate()) {
+      message.error(InvalidMessage.InvalidRequire);
+      return;
+    }
+    if (!validation.isHalfWidthOnly(apiState.url)) {
+      message.error(InvalidMessage.InvalidUrl);
+      return;
+    }
+
     const response = await apisRepository.update(apiState);
 
     if (response.status !== 200) {
