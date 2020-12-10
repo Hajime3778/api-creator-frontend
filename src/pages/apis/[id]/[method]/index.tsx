@@ -11,6 +11,8 @@ import { CreatedResponse } from 'src/types/createdResponse';
 import { Error } from 'src/types/error';
 import { Method } from 'src/types/method';
 import { ActionMessage } from 'src/utils/messages';
+import { InvalidMessage } from 'src/utils/messages';
+import { validation } from 'src/utils/validation';
 
 import { MethodTypeSelect } from './methodTypeSelect';
 
@@ -71,7 +73,15 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
   };
 
   const createMethod = async () => {
-    if (!requireInputValidate()) return;
+    if (!requireInputValidate()) {
+      message.error(InvalidMessage.InvalidRequire);
+      return;
+    }
+    if (!validation.isHalfWidthOnly(methodState.url)) {
+      message.error(InvalidMessage.InvalidUrl);
+      return;
+    }
+
     const response = await methodsRepository.create(methodState);
 
     if (response.status !== 201) {
@@ -89,7 +99,15 @@ const MethodPage: NextPage<Props> = ({ api, method }) => {
   };
 
   const updateMethod = async () => {
-    if (!requireInputValidate()) return;
+    if (!requireInputValidate()) {
+      message.error(InvalidMessage.InvalidRequire);
+      return;
+    }
+    if (!validation.isHalfWidthOnly(methodState.url)) {
+      message.error(InvalidMessage.InvalidUrl);
+      return;
+    }
+
     const response = await methodsRepository.update(methodState);
 
     if (response.status !== 200) {

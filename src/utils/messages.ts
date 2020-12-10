@@ -13,3 +13,9 @@ export const JsonMessage = {
   InValid: 'JSONの形式が正しくありません',
 } as const;
 type JsonMessage = typeof JsonMessage[keyof typeof JsonMessage];
+
+export const InvalidMessage = {
+  InvalidUrl: 'URLに指定できない文字列が含まれています',
+  InvalidRequire: '入力されていない項目があります',
+} as const;
+type InvalidMessage = typeof InvalidMessage[keyof typeof InvalidMessage];
