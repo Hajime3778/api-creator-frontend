@@ -7,7 +7,7 @@ import NextApp from 'next/app';
 import { Layout } from 'src/components/layout';
 import { Api } from 'src/types/api';
 
-const apiAdminUrl = process.env.ADMIN_API_URL;
+const apiAdminUrl = process.env.NEXT_PUBLIC_ADMIN_API_URL;
 const apiVersion = 'v1';
 Axios.defaults.baseURL = `${apiAdminUrl}/api/${apiVersion}/`;
 Axios.defaults.validateStatus = (status) => (status >= 200 && status < 300) || status == 400 || status == 404;
