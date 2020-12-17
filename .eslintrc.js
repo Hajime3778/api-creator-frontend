@@ -17,16 +17,17 @@ module.exports = {
     jest: true,
     node: true,
   },
-  plugins: ['simple-import-sort', 'react-hooks'],
+  plugins: ['simple-import-sort', 'react-hooks', '@typescript-eslint', 'eslint-plugin-prettier'],
   extends: [
     'eslint:recommended',
+    'plugin:prettier/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:prettier/recommended',
-    'prettier/@typescript-eslint',
     'prettier/react',
+    'prettier/@typescript-eslint',
+    'eslint-config-prettier',
   ],
   rules: {
     'no-restricted-syntax': ['error', { selector: 'TSEnumDeclaration', message: "Don't declare enums" }],
@@ -46,9 +47,8 @@ module.exports = {
     // "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     // "@typescript-eslint/explicit-module-boundary-types": 0,
     // "no-console": ["error", { allow: ["warn", "error"] }],
-    'prettier/prettier': ['error', { singleQuote: true }, { usePrettierrc: true }],
     'simple-import-sort/sort': 'error',
-    quotes: [2, 'single', { avoidEscape: true }],
+    //quotes: [2, 'single', { avoidEscape: true }],
     'jsx-a11y/anchor-is-valid': [
       'error',
       {
@@ -57,5 +57,6 @@ module.exports = {
         aspects: ['invalidHref', 'preferButton'],
       },
     ],
+    'prettier/prettier': ['error', { singleQuote: true }],
   },
 };
