@@ -6,7 +6,7 @@
 }
 
 $font-base-size: 16px;
-$font-base-color: #2F2F2F;
+$font-base-color: #2f2f2f;
 
 h1 {
   color: $font-base-color;
@@ -23,16 +23,30 @@ p {
   margin-bottom: 0;
 }
 
-.ant-btn{
+.ant-btn {
   border-radius: 8px;
-  color: #ffffff;
+  // color: #ffffff;
 }
 
-.ant-btn-circle{
+.ant-btn-primary {
+  color: #fff;
+  background: #1890ff;
+  border-color: #1890ff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-btn-dangerous {
+  color: #ff4d4f;
+  background: #fff;
+  border-color: #ff4d4f;
+}
+
+.ant-btn-circle {
   border-radius: 50%;
 }
 
-.ant-layout-has-sider{
+.ant-layout-has-sider {
   min-height: 100vh;
 }
 
