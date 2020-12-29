@@ -4,7 +4,7 @@ class Validation {
    * @param  {string} str
    */
   isHalfWidthOnly(str: string): boolean {
-    if (str.match(/^[a-zA-Z0-9!-/:-?@¥[-{-~]+$/)) {
+    if (str.match(/^[a-zA-Z0-9!-/:-?@¥[-{}-~]+$/)) {
       return true;
     }
     return false;
